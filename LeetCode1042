@@ -23,6 +23,51 @@
 
 知识点终结：
 1.关于HashSet
+使用时需要头文件，import java.util.HashSet
+申请方式：HashSet<类型> 名字 = new HashSet<>();//随机存储四个颜色
+常用函数：
+  1） set.clear();//清除
+  2） set.add(数字);//加入数字
+  3） set.contains();//检查给定HashSet中是否存在元素
 
+
+代码：
+import java.util.HashSet
+class Solution {
+    public int[] gardenNoAdj(int N, int[][] paths) {
+        // 构造图结构
+        int[] A = new int[N];//构建四个花园
+        byte[][] map = new byte[N][N];//构建路径
+        for (int p[] : paths) {
+            map[p[0] - 1][p[1] - 1] = -1;
+            map[p[1] - 1][p[0] - 1] = -1;
+        }
+
+        //A处：将相邻且上过色的节点保存
+        //B处：利用set快速找出可选择的颜色，进行上色
+        
+        
+        HashSet<Integer> set = new HashSet<>(4);//随机存储四个颜色
+
+        for (int i = 0; i < N; ++i) {
+
+            if (A[i] > 0) continue;
+
+            set.clear();//清除
+            for (int j = 0; j < N; ++j) {
+                if (map[i][j] != -1) continue;//相邻的节点
+                if (A[j] == 0) continue;//且着色
+                set.add(A[j]);//A，保存
+            }
+            for (int j = 1; j < 5; j++) {
+                if (set.contains(j)) continue; //B，contains方法的目的是检查给定HashSet中是否存在元素。如果找到该元素，则返回true，否则返回false。
+                A[i] = j;
+                break;
+            }
+
+        }
+        return A;
+    }
+}
 
 
